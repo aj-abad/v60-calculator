@@ -3,6 +3,7 @@ const tagline = "A simple calculator for V60 coffee recipes";
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
+  ssr: false,
   app: {
     head: {
       htmlAttrs: {
