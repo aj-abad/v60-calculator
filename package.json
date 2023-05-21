@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.6.4",
+    "naive-ui": "^2.34.3",
     "nuxt": "3.3.2"
   },
   "dependencies": {
