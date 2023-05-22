@@ -1,4 +1,11 @@
 <template>
+  <header class="px-2 md:px-4 lg:px-8 px-2 pt-4 lg:pt-8 select-none">
+    <h1 class="text-4xl lg:text-6xl font-medium mb-2">Simple V60 recipe calculator</h1>
+    <p class="text-lg lg:text-2xl text-black text-opacity-60">
+      A simple calculator based on Tetsu Kasuya's 4:6 method.
+    </p>
+    <hr class="my-4 lg:my-8" />
+  </header>
   <main id="home" class="h-full w-full px-2 md:px-4 lg:px-8">
     <section id="parameters" class="mb-12">
       <NConfigProvider preflight-style-disabled>
@@ -51,7 +58,7 @@
               </div>
               <div class="flex text-4xl font-medium gap-2" v-else>
                 <input
-                  id="water-amount" 
+                  id="water-amount"
                   type="number"
                   class="border-b outline-none w-[3ch]"
                   v-model="waterAmount"
@@ -79,7 +86,8 @@
                   2: '',
                   3: '',
                 }" />
-              <div class="flex justify-between uppercase text-black text-opacity-60 font-medium select-none">
+              <div
+                class="flex justify-between uppercase text-black text-opacity-60 font-medium select-none">
                 <small>Sweeter</small>
                 <small>Brighter</small>
               </div>
@@ -98,7 +106,8 @@
                   1: '',
                   2: '',
                 }" />
-              <div class="flex justify-between uppercase text-black text-opacity-60 font-medium select-none">
+              <div
+                class="flex justify-between uppercase text-black text-opacity-60 font-medium select-none">
                 <small>Mellow</small>
                 <small>Full-bodied</small>
               </div>
