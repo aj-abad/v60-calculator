@@ -28,14 +28,17 @@
             }}mL total
           </span>
           <br />
-          <span> 10s pour <span v-if="allPours.at(i + 1)" class="text-black text-opacity-60">/ 45s pause</span> </span>
+          <span>
+            10s pour
+            <span v-if="allPours.at(i + 1)" class="text-black text-opacity-60">/ 45s pause</span>
+          </span>
         </div>
       </div>
     </div>
     <div>
       <div>
         <span class="text-2xl font-medium">
-            {{ totalBrewTimeInMinutesAndSeconds.replace("0s", "") }}
+          {{ totalBrewTimeInMinutesAndSeconds.replace("0s", "") }}
         </span>
         <span class="text-white text-opacity-80"> total brew time </span>
       </div>
@@ -44,17 +47,8 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
-  desiredProfile: number;
-  desiredStrength: number;
-  coffeeAmount: number;
-  waterAmount: number;
-  useRatio: boolean;
-  coffeeRatio: number;
-  waterRatio: number;
-}
-
-const props = withDefaults(defineProps<Props>(), {
+import { RecipeProps } from "@/types/RecipeProps";
+const props = withDefaults(defineProps<RecipeProps>(), {
   desiredProfile: 50,
   desiredStrength: 50,
   useRatio: true,
