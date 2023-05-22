@@ -10,10 +10,11 @@
         <span class="text-white text-opacity-80"> water </span>
       </div>
     </div>
-    <div class="flex gap-1 mb-4" id="pours-viz">
-      <div
+    <ol class="flex gap-1 mb-4" id="pours-viz">
+      <li
         v-for="(pour, i) in recipe.allPours"
         class="pour bg-slate-200 text-black px-4 py-2"
+        :class="i <= 1 ? 'transition-all transition-300' : ''"
         :style="`width: calc(${(pour * 100) / recipe.finalWaterAmount}%`">
         <div>
           <span class="text-xl font-medium">{{ pour }}mL</span>
@@ -29,8 +30,8 @@
             >
           </span>
         </div>
-      </div>
-    </div>
+      </li>
+    </ol>
     <div>
       <div>
         <span class="text-2xl font-medium">
@@ -43,20 +44,13 @@
 </template>
 
 <script setup lang="ts">
-import { RecipeProps } from "@/types/RecipeProps";
-const props = withDefaults(defineProps<RecipeProps>(), {
-  desiredProfile: 50,
-  desiredStrength: 50,
-  useRatio: true,
-  coffeeRatio: 1,
-  waterRatio: 15,
-  coffeeAmount: 15,
-  waterAmount: 225,
-});
+import { Recipe } from "@/utils/createRecipe";
+const props = defineProps<{
+  recipe: Recipe;
+  coffeeAmount: number;
+}>();
 
-const { coffeeAmount } = toRefs(props);
-
-const recipe = computed(() => createRecipe(props));
+const { recipe, coffeeAmount } = toRefs(props);
 
 const totalBrewTimeInMinutesAndSeconds = computed(() => {
   const minutes = Math.floor(recipe.value.totalBrewTime / 60);

@@ -6,7 +6,7 @@
     </p>
     <hr class="my-4 lg:my-8" />
   </header>
-  <main id="home" class="h-full w-full px-2 md:px-4 lg:px-8">
+  <main id="home" class="h-full w-full px-2 md:px-4 lg:px-8 pb-4">
     <section id="parameters" class="mb-12">
       <NConfigProvider preflight-style-disabled>
         <div class="mb-4">
@@ -119,17 +119,10 @@
     <div class="mb-2">
       <span class="font-medium text-black text-opacity-60">RECIPE</span>
     </div>
-    <Recipe
-      :coffee-amount="coffeeAmount || 15"
-      :water-amount="waterAmount || 225"
-      :desired-profile="desiredProfile"
-      :desired-strength="desiredStrength"
-      :coffee-ratio="coffeeRatio || 1"
-      :water-ratio="waterRatio || 15"
-      :use-ratio="useRatio"
-      class="mb-4" />
-    <button type="button" class="border px-4 py-2 rounded-md">
-      <span class="font-medium">Share this recipe</span>
+    <Recipe :coffee-amount="coffeeAmount || 15" :recipe="recipe" class="mb-4" />
+    <button type="button" class="border px-4 py-2 rounded-md flex items-center gap-2">
+      <Logo class="h-6 w-6 mb-[0.0625rem]" />
+      <span class="font-medium">Save this recipe</span>
     </button>
   </main>
 </template>
@@ -147,4 +140,16 @@ const waterAmount = ref(225);
 
 const desiredProfile = ref(2);
 const desiredStrength = ref(0);
+
+const recipe = computed(() =>
+  createRecipe({
+    useRatio: useRatio.value,
+    coffeeRatio: coffeeRatio.value || 1,
+    waterRatio: waterRatio.value || 15,
+    coffeeAmount: coffeeAmount.value || 15,
+    waterAmount: waterAmount.value || 225,
+    desiredProfile: desiredProfile.value,
+    desiredStrength: desiredStrength.value,
+  })
+);
 </script>
