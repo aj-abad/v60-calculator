@@ -1,5 +1,12 @@
 import { RecipeProps } from "~~/types/RecipeProps";
 
+export interface Recipe {
+  finalWaterAmount: number;
+  allPours: number[];
+  totalBrewTime: number;
+  totalWaterPerPour: number[];
+}
+
 export const createRecipe = (recipe: RecipeProps) => {
   const {
     coffeeAmount,
@@ -27,7 +34,7 @@ export const createRecipe = (recipe: RecipeProps) => {
   const firstTwoPoursAmount = (() => {
     const firstPour = firstPourTotal * firstTwoPoursRatio[0];
     const secondPour = firstPourTotal - firstPour;
-    return [firstPour, secondPour].map((pour) => parseFloat(pour.toFixed(2)));
+    return [firstPour, secondPour];
   })();
 
   // the remainder of the water
@@ -40,7 +47,9 @@ export const createRecipe = (recipe: RecipeProps) => {
   const lastPours = new Array<number>(lastPoursNumber).fill(lastPourTotal / lastPoursNumber);
 
   // all pours, in mL
-  const allPours = (() => [...firstTwoPoursAmount, ...lastPours])();
+  const allPours = [...firstTwoPoursAmount, ...lastPours].map((pour) =>
+    parseFloat(pour.toFixed(2))
+  );
 
   // total brew time assuming 10s pours and 45s intervals between pours
   const totalBrewTime = (() => allPours.length * 10 + (allPours.length - 1) * 45)();
@@ -53,9 +62,29 @@ export const createRecipe = (recipe: RecipeProps) => {
     totalWaterPerPour.push(totalSoFar);
   });
   return {
-    finalWaterAmount,
+    // return this instead of finalWaterAmount because it's more accurate
+    finalWaterAmount: totalWaterPerPour.at(-1),
     allPours,
     totalBrewTime,
     totalWaterPerPour,
-  };
+  } as Recipe;
+};
+
+export const encodeRecipe = (recipe: Recipe): string => {
+  const json = JSON.stringify(recipe);
+  // base64 encode json
+  const encoded = window.btoa(json);
+  return encoded;
+};
+
+export const decodeRecipe = (encoded: string) => {
+  try {
+    // base64 decode json
+    const decoded = window.atob(encoded);
+    const json = JSON.parse(decoded);
+    return json as Recipe;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 };
