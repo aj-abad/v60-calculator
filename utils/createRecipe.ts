@@ -1,6 +1,7 @@
 import { RecipeProps } from "~~/types/RecipeProps";
 
 export interface Recipe {
+  coffeeAmount: number;
   finalWaterAmount: number;
   allPours: number[];
   totalBrewTime: number;
@@ -67,22 +68,35 @@ export const createRecipe = (recipe: RecipeProps) => {
     allPours,
     totalBrewTime,
     totalWaterPerPour,
+    coffeeAmount,
   } as Recipe;
 };
 
+export const signature = "Tetsu is goated";
+
 export const encodeRecipe = (recipe: Recipe): string => {
-  const json = JSON.stringify(recipe);
+  const { coffeeAmount, allPours, finalWaterAmount } = recipe;
+
+  const payload =
+    [coffeeAmount.toString(), finalWaterAmount, allPours.join(":")].join("|") + " " + signature;
   // base64 encode json
-  const encoded = window.btoa(json);
-  return encoded;
+  return btoa(payload);
 };
 
-export const decodeRecipe = (encoded: string) => {
+export const decodeRecipe = (encoded: string): Recipe | null => {
   try {
     // base64 decode json
-    const decoded = window.atob(encoded);
-    const json = JSON.parse(decoded);
-    return json as Recipe;
+    const decoded = atob(encoded);
+
+    // check if payload includes signature
+    if (decoded.substring(decoded.length - signature.length) !== signature) {
+      throw new Error("Invalid signature");
+    }
+    const [coffeeAmountRaw, finalWaterAmountRaw, allPoursRaw] = decoded.split("|");
+    const coffeeAmount = parseFloat(coffeeAmountRaw);
+    const finalWaterAmount = parseFloat(finalWaterAmountRaw);
+    const allPours = allPoursRaw.split(":").map((pour) => parseFloat(pour));
+    return { coffeeAmount, finalWaterAmount, allPours } as Recipe;
   } catch (e) {
     console.error(e);
     return null;
