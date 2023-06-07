@@ -36,7 +36,7 @@ export default defineNuxtConfig({
     },
   },
   build: {
-    transpile: ["@headlessui/vue"],
+    transpile: ["@headlessui/vue", "naive-ui"],
   },
   imports: {
     dirs: ["~/components", "~/layouts", "~/pages", "~/plugins"],
